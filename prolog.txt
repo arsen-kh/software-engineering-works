@@ -1,0 +1,26 @@
+% Базовые условия, которые мы можем задать напрямую
+collect("Wolf", "Fauna"). 
+position("Wolf", "Naf-Naf", "left"). 
+position("Nuf-Nuf", "Naf-Naf", "opposite"). 
+
+% Определяем позицию Нифа (Nif-Nif)
+position("Nif-Nif", WhoIs, "right") :- position("Wolf", WhoIs, "left"), position("Wolf", "Nuf-Nuf", "right"). 
+
+% Определяем, что Ниф собирает космос
+collect(Who, "Space") :- position("Nif-Nif", Who, "right").
+
+% Марки, которые собирают участники
+mark("Flora").
+mark("Sport").
+mark("Fauna").
+mark("Space").
+
+% Исключаем марки, которые не подходят для Нуфа (Nuf-Nuf)
+collect("Nuf-Nuf", What) :- mark(What), What \= "Sport", \+ collect("Wolf", What), \+ collect("Naf-Naf", What).
+
+% Исключаем марки, которые не подходят для Нифа (Nif-Nif)
+collect("Nif-Nif", What) :- mark(What), \+ collect("Nuf-Nuf", What), \+ collect("Wolf", What), \+ collect("Naf-Naf", What).
+
+% Вывод коллекционеров и их позиции на столе
+?- collect(Who, What), write(Who), write(" собирает "), writeln(What), fail.
+?- position(Who1, Who2, Where), write(Who1), write(" sitting "), write(Where), write(" from "), writeln(Who2), fail.
